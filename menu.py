@@ -1,7 +1,7 @@
 
 def mensagem_inicial():
-    decoracao = "#" * 30
-    decoracao2 = " " * 12
+    decoracao = "#" * 75
+    decoracao2 = " " * 30
     print()
     print(f" {decoracao} ")
     print(f"{decoracao2}BEM VINDO")
@@ -28,6 +28,7 @@ def dic(escolha):
 
 def escolhe_infos():
     escolhas = []
+    escolhas2 = []
     print()
     print(" Agora que sabemos o CEP desejado, quais informações deseja do mesmo?")
     print(" Opções: Tipo De Endereço       Nome Do Endereço       Endereço")
@@ -41,6 +42,7 @@ def escolhe_infos():
         bool, opcao = dic(escolha)
         if bool:
             escolhas.append(opcao)
+            escolhas2.append(escolha)
             print()
             escolha2 = (input(" Deseja escolher mais opções? [S] - SIM ou [N] - NÃO: ")).upper()
             if escolha2 == "N":
@@ -49,4 +51,27 @@ def escolhe_infos():
             print()
             print(" Essa opção não existe. Confira se digitou corretemente e tente denovo.")
 
-    return escolhas
+    return escolhas, escolhas2
+
+def mostra_opcoes_escolhidas(cep ,dados_cep, opcoes_escolhidas, opcoes_escolhidas_print):
+    print()
+    print(f" Os dados escolhidos do CEP = {cep} são: ")
+    print()
+    for i in range(0, len(opcoes_escolhidas)):
+        if opcoes_escolhidas[i] in dados_cep:
+            print(f"  - {opcoes_escolhidas_print[i]}: {dados_cep[opcoes_escolhidas[i]]}")
+        else:
+            print(f" Não foi possível obter a opção {opcoes_escolhidas[i]}. Desculpe pelo imprevisto :c")
+
+def continua():
+    print()
+    escolha = (input(" Deseja obter informações de outros CEP? [S] - SIM ou [N] - NÃO: ")).upper()
+    return escolha
+
+def saida_programa():
+    decoracao = "#" * 75
+    decoracao2 = " " * 30
+    print()
+    print(f" {decoracao} ")
+    print(f"{decoracao2}OBRIGADO PRO USAR O PROGRAMA !!!")
+    print(f" {decoracao} ")
