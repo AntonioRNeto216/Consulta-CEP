@@ -1,77 +1,75 @@
 
-def mensagem_inicial():
-    decoracao = "#" * 75
-    decoracao2 = " " * 30
-    print()
-    print(f" {decoracao} ")
-    print(f"{decoracao2}BEM VINDO")
-    print(f" {decoracao} ")
+class Menu:
+    def __init__(self):
+        self._dicionarioAPI = {1: "address_type", 2: "address_name", 3: "address", 4: "district", 5: "state", 6: "city", 7: "lat",
+               8: "lng", 9: "ddd", 10: "city_ibge"}
+        self._dicionarioPrint = {1: "Tipo De Endereço", 2: "Nome Do Endereço", 3: "Endereço", 4: "Distrito", 5: "Estado", 6: "Cidade",
+                              7: "Latitude", 8: "Longitude", 9: "DDD", 10: "Cidade Do IBGE"}
+        self._decoracao = "#" * 75
+        self._decoracao2 = " " * 30
 
-def perguntar_cep():
-    while True:
-        print()
-        cep = input(" Digite um CEP para retornarmos informações sobre o mesmo: ")
-        if len(cep) < 8 or len(cep) > 8:
-            print()
-            print(" O CEP digitado não apresenta o padrão, ou seja, não contém 8 digitos. Tente novamente")
-        else:
-            break
+    @property
+    def decoracao(self):
+        return self._decoracao
 
-    return cep
+    @property
+    def decoracao2(self):
+        return self._decoracao2
 
-def dic(escolha):
-    dic = {"Tipo De Endereço": "address_type", "Nome Do Endereço": "address_name", "Endereço": "address", "Distrito": "district", "Estado": "state", "Cidade": "city", "Latitude": "lat", "Longitude": "lng", "DDD": "ddd", "Cidade Do IBGE": "city_ibge"}
-    if escolha in dic:
-        return True, dic[escolha]
-    else:
-        return False, " "
+    def retorna_ConteudoDicAPI(self, escolha):
+        return self._dicionarioAPI[escolha]
 
-def escolhe_infos():
-    escolhas = []
-    escolhas2 = []
-    print()
-    print(" Agora que sabemos o CEP desejado, quais informações deseja do mesmo?")
-    print(" Opções: Tipo De Endereço       Nome Do Endereço       Endereço")
-    print("         Distrito               Estado                 Cidade")
-    print("         Latitude               Longitude              DDD")
-    print("         Cidade Do IBGE")
-    while True:
-        print()
-        print(" Qual opção você deseja saber? Obs: escreva exatamente como está acima.")
-        escolha = input(" Opção: ")
-        bool, opcao = dic(escolha)
-        if bool:
-            escolhas.append(opcao)
-            escolhas2.append(escolha)
-            print()
-            escolha2 = (input(" Deseja escolher mais opções? [S] - SIM ou [N] - NÃO: ")).upper()
-            if escolha2 == "N":
+    def retorna_ConteudoDicPrint(self, escolha):
+        return self._dicionarioPrint[escolha]
+
+    def mensagem_inicial(self):
+        print(f"\n {self.decoracao} ")
+        print(f"{self.decoracao2}BEM VINDO")
+        print(f" {self.decoracao} ")
+
+    def perguntar_cep(self):
+        while True:
+            cep = input("\n Digite um CEP para retornarmos informações sobre o mesmo: ")
+            if len(cep) != 8:
+                print("\n O CEP digitado não apresenta o padrão, ou seja, não contém 8 digitos. Tente novamente")
+            else:
                 break
-        else:
-            print()
-            print(" Essa opção não existe. Confira se digitou corretemente e tente denovo.")
+        return cep
 
-    return escolhas, escolhas2
+    def escolhe_infos(self):
+        escolhas = []
+        print("\n Agora que sabemos o CEP desejado, quais informações deseja do mesmo?")
+        print(" Opções: 1 - Tipo De Endereço       2 - Nome Do Endereço       3 - Endereço")
+        print("         4 - Distrito               5 - Estado                 6 - Cidade")
+        print("         7 - Latitude               8 - Longitude              9 - DDD")
+        print("         10 - Cidade Do IBGE")
+        while True:
+            print("\n Qual opção você deseja saber? Obs: Digite o número da opção desejada.")
+            escolha = int(input(" Opção: "))
+            if 1 <= escolha <= 10:
+                opcao = self.retorna_ConteudoDicAPI(escolha)
+                mensagem_print = self.retorna_ConteudoDicPrint(escolha)
+                escolhas.append((mensagem_print, opcao))
+                escolha2 = (input("\n Deseja escolher mais opções? [S] - SIM ou [N] - NÃO: ")).upper()
+                if escolha2 == "N":
+                    break
+            else:
+                print("\n Essa opção não existe. Confira o número digitado e tente novamente.")
+        return escolhas
 
-def mostra_opcoes_escolhidas(cep ,dados_cep, opcoes_escolhidas, opcoes_escolhidas_print):
-    print()
-    print(f" Os dados escolhidos do CEP = {cep} são: ")
-    print()
-    for i in range(0, len(opcoes_escolhidas)):
-        if opcoes_escolhidas[i] in dados_cep:
-            print(f"  - {opcoes_escolhidas_print[i]}: {dados_cep[opcoes_escolhidas[i]]}")
-        else:
-            print(f" Não foi possível obter a opção {opcoes_escolhidas[i]}. Desculpe pelo imprevisto :c")
+    def mostra_opcoes_escolhidas(self, cep, dados_cep, opcoes_escolhidas):
+        print(f"\n Os dados escolhidos do CEP = {cep} são: \n")
+        for mensagem, codigoAPI in opcoes_escolhidas:
+            if codigoAPI in dados_cep:
+                print(f"  - {mensagem}: {dados_cep[codigoAPI]}")
+            else:
+                print(f" Não foi possível obter a opção {mensagem}. Desculpe pelo imprevisto :c")
 
-def continua():
-    print()
-    escolha = (input(" Deseja obter informações de outros CEP? [S] - SIM ou [N] - NÃO: ")).upper()
-    return escolha
+    def continua(self):
+        escolha = (input("\n Deseja obter informações de outro CEP? [S] - SIM ou [N] - NÃO: ")).upper()
+        return escolha
 
-def saida_programa():
-    decoracao = "#" * 75
-    decoracao2 = " " * 30
-    print()
-    print(f" {decoracao} ")
-    print(f"{decoracao2}OBRIGADO PRO USAR O PROGRAMA !!!")
-    print(f" {decoracao} ")
+    def saida_programa(self):
+        print(f" {self.decoracao} ")
+        print(f"{self.decoracao2}OBRIGADO PRO USAR O PROGRAMA !!!")
+        print(f" {self.decoracao} ")
