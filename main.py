@@ -13,7 +13,7 @@ while True:
     cep = menu.perguntar_cep()
     dados_cep, status_code = pegaInfo.abre_url(cep)
 
-    if status_code == 200 and dados_cep != None:
+    if status_code == 200:
         opcoes_escolhidas = menu.escolhe_infos()
         menu.mostra_opcoes_escolhidas(cep, dados_cep, opcoes_escolhidas)
         continua = menu.continua()

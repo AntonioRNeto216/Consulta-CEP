@@ -27,7 +27,7 @@ class Menu:
         print(f"{self.decoracao2}BEM VINDO")
         print(f" {self.decoracao} ")
 
-    def perguntar_cep(self):
+    def perguntar_cep(self) -> str:
         while True:
             cep = input("\n Digite um CEP para retornarmos informações sobre o mesmo: ")
             if len(cep) != 8:
@@ -36,7 +36,7 @@ class Menu:
                 break
         return cep
 
-    def escolhe_infos(self):
+    def escolhe_infos(self) -> list:
         escolhas = []
         print("\n Agora que sabemos o CEP desejado, quais informações deseja do mesmo?")
         print(" Opções: 1 - Tipo De Endereço       2 - Nome Do Endereço       3 - Endereço")
@@ -57,7 +57,7 @@ class Menu:
                 print("\n Essa opção não existe. Confira o número digitado e tente novamente.")
         return escolhas
 
-    def mostra_opcoes_escolhidas(self, cep, dados_cep, opcoes_escolhidas):
+    def mostra_opcoes_escolhidas(self, cep: str, dados_cep: dict, opcoes_escolhidas: list):
         print(f"\n Os dados escolhidos do CEP = {cep} são: \n")
         for mensagem, codigoAPI in opcoes_escolhidas:
             if codigoAPI in dados_cep:
@@ -65,7 +65,7 @@ class Menu:
             else:
                 print(f" Não foi possível obter a opção {mensagem}. Desculpe pelo imprevisto :c")
 
-    def continua(self):
+    def continua(self) -> str:
         escolha = (input("\n Deseja obter informações de outro CEP? [S] - SIM ou [N] - NÃO: ")).upper()
         return escolha
 
